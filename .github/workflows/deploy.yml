@@ -26,5 +26,6 @@ jobs:
       - name: git pull and npm install
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME}}@${{ secrets.VM_KNOWN_HOSTS }}
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }} "cd /home/ubuntu/Dockerdemo-Amal/;git pull;npm install --force;sudo docker stop demo-docker-amal;sudo docker rm demo-docker-amal;sudo docker run -d -p 49160:8080 --name=demo-docker-amal amalkr/deockerdemo-node-web-app;"
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }} "cd /home/ubuntu/Dockerdemo-Amal/;git pull;npm install --force;sudo docker stop demo-docker-amal;sudo docker rm demo-docker-amal;sudo docker build . -t amalkr/deockerdemo-node-web-app;sudo docker run -d -p 49160:8080 --name=demo-docker-amal amalkr/deockerdemo-node-web-app;"
+  
   
