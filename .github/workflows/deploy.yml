@@ -33,7 +33,16 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/deockerdemo-node-web-app
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/deockerdemo-node-web-app:latest
+
+      - name: Run the image in a container
+        uses: addnab/docker-run-action@v3
+        with:
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/deockerdemo-node-web-app:latest
+          run: |
+            echo "runing the docker image"
+            echo "Testing the nodejs  app endpoints"
+            echo ${{ steps.docker_build.outputs.digest }}
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
@@ -46,7 +55,9 @@ jobs:
       - name: ssh to vm and docker pull and run container
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME}}@${{ secrets.VM_KNOWN_HOSTS }}
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }} "cd /home/ubuntu/Dockerdemo-Amal/;git pull;npm install --force;sudo docker stop demo-docker-amal;sudo docker rm demo-docker-amal;sudo docker pull amalkr/deockerdemo-node-web-app;sudo docker run -d -p 49160:8080 --name=demo-docker-amal amalkr/deockerdemo-node-web-app;"
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }} "cd /home/ubuntu/Dockerdemo-Amal/;git pull;npm install --force;sudo docker pull amalkr/deockerdemo-node-web-app;"
+  
+
   
    
   
