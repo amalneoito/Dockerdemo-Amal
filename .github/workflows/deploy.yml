@@ -55,7 +55,7 @@ jobs:
       - name: ssh to vm and docker pull and run container
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME}}@${{ secrets.VM_KNOWN_HOSTS }}
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }} "cd /home/ubuntu/Dockerdemo-Amal/;git pull;npm install --force;sudo docker pull amalkr/deockerdemo-node-web-app;"
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USERNAME }}@${{ secrets.VM_HOST }} "cd /home/ubuntu/Dockerdemo-Amal/;git pull;npm install --force;sudo docker pull amalkr/deockerdemo-node-web-app:latest;sudo docker stop test-docker-amal;sudo docker rm test-docker-amal;sudo docker run -p49160:8080 -d --name=test-docker-amal amalkr/deockerdemo-node-web-app:latest"
   
 
   
